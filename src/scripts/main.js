@@ -44,17 +44,21 @@ const firstPromise = new Promise((resolve, reject) => {
 
 firstPromise.then(thenSuccess).catch(catchError);
 
-const secondPromise = Promise.resolve('Second');
+const secondPromise = new Promise((resolve) => {
+  const count = 'Second';
 
-['click', 'contextmenu'].forEach((elem) => {
-  document.addEventListener(elem, (eventElem) => {
-    if (eventElem.button === 2) {
-      eventElem.preventDefault();
-    }
+  ['click', 'contextmenu'].forEach((elem) => {
+    document.addEventListener(elem, (eventElem) => {
+      if (eventElem.button === 2) {
+        eventElem.preventDefault();
+      }
 
-    secondPromise.then(thenSuccess);
+      resolve(count);
+    });
   });
 });
+
+secondPromise.then(thenSuccess);
 
 let click = false;
 let contextmenu = false;
